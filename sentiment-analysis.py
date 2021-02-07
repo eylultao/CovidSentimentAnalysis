@@ -35,22 +35,14 @@ df_out = df.assign(hashtags=df.hashtags.str.strip('[]').str.split(', '))
 hashtags_list = fix_to_list(df_out.hashtags)
 hashtags_dic = create_frequency_dict(hashtags_list)
 
-for key, value in hashtags_dic.items():
-    if value > 20:
-        print (key, value)
 
+# for key, value in hashtags_dic.items():
+#     if value > 20:
+#         print (key, value)
+
+# visualize most use hashtags in the dataset
+# TODO: count similar hashtags together (eg. CovidVaccine and CovidVaxx can be joined )
 d = dict((k, v) for k, v in hashtags_dic.items() if v > 50)
-
-# plt.bar(d.keys(), d.values())
-# plt.xticks(rotation = 45)
-# SMALL_SIZE = 8
-# MEDIUM_SIZE = 10
-# plt.rc('font', size=SMALL_SIZE)          # controls default text sizes
-# plt.rc('axes', titlesize=SMALL_SIZE)     # fontsize of the axes title
-# plt.rc('axes', labelsize=MEDIUM_SIZE)    # fontsize of the x and y labels
-# plt.rc('xtick', labelsize=SMALL_SIZE)    # fontsize of the tick labels
-# #plt.show()
-# plt.savefig("out.png")
-
 plt.pie(d.values(), labels = d.keys())
-plt.show()
+# plt.show()
+plt.savefig("common_hastags_pieplt.png")
