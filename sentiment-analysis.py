@@ -127,3 +127,4 @@ plt.scatter(df_no_zero_score.favorites, df_no_zero_score.compound_score)
 plt.show()
 
 
+df_high_engagement.to_csv("updated_dataframe.csv")
