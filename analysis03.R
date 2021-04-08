@@ -42,3 +42,17 @@ median_score_by_date = aggregate(training_set$compound_score, by= list(training_
 plot( x = as.factor(median_score_by_date$Group.1), y= median_score_by_date$x, ylab = "Median Score") # slightly? increase, most values are zero.
 
 difference_min_max = max_score_by_date$x - min_score_by_date$x # over time, tweets get "milder"
+
+par(mfrow=c(2,3))
+# How does number of hashtags change in terms of tweet sentiment
+for (i in 1:5){
+  sentiment_i_hashtag_count = df$hashtags_count[which(df$overall_sentiment == labels[i])]
+  sentiment_i_scores = df$compound_score[which(df$overall_sentiment == labels[i])]
+  print(head(sentiment_i_hashtag_count))
+  print(labels[i])
+  #boxplot(sentiment_i_scores, xlab = labels[i], ylab= "scores")
+  boxplot(sentiment_i_hashtag_count, xlab = labels[i], ylab= "hashtag count")
+}
+
+
+
