@@ -7,28 +7,28 @@ https://www.kaggle.com/gpreda/pfizer-vaccine-tweets
 
 # Steps Taken
 
-### analysis01.py
-Creating the Sentiment Score using VaderSentiment Library
+### 01a-analysis.py
+Preprocess tweet text
+Obtains Compound (Sentiment) Score using VaderSentiment Library
+Creates new column: hashtag_count
+TODO(if time permits): Applying other NLP techniques to extract as much information we can from tweet text and hashtags used. Possible Techniques to use: n-grams, LSTM
 
-### analysis02.R
-Creating new columns, basic transformations on variables such as: retweets, date, compound sentiment score 
+### 01b-analysis.R
+Creates response variable: Popularity Score
+Reformats date
+Transforms compound score to categorical
 
-### analysis03.R
+### 02-analysis.R
+Undersample data with LOW popularity score
+Creates training & testing gets
+Ensures no duplicate users in both sets
+
+### 03-analysis.R
 Basic visualizations for our variables, exploring spearman rank correlation between explanatory & response variables.
 
+### 04-analysis.R
+Initial models for classification, comparisons between predictive powers
 
 # TODOS
-### analysis04.R
-Creating the new response variable, "popularity score" (might move this to analysis02)
-Popularity score is intended to be a mix using number of retweets as well as number of favorites
-
-### analysis05.R
-Classification models for predicting the popularity of a tweet 
-
-### analysis06.py
-This part can also be moved up to analysis01
-Applying other NLP techniques to extract as much information we can from tweet text and hashtags used. 
-Possible Techniques to use: n-grams, LSTM(if time permits)
-
-### analysis07.R
-Conclusion, final prediction results, final diagnostics 
+### 05-analysis.R
+Conclusion, final model, prediction results, diagnostics 
