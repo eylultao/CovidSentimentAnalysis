@@ -29,6 +29,11 @@ TransformIntoOrdinalCategorical <-function(data, breaks, labels){
   return (cut(data, breaks = breaks, labels = labels, ordered_results = TRUE, right = TRUE ))
 }
 
+# Data Wrangling
+colnames(df)
+df <- df[c("user_verified", "date", "text", "hashtags", "hashtags_count", "retweets", "favorites","compound_score", 
+           "positive_score", "negative_score", "neutral_score")]
+
 # creating response variable
 weighs = c(0.75, 0.25)
 df$popularity_score <- GetPopularityScore(df, weighs = weighs) 
@@ -37,7 +42,7 @@ df$popularity_score_ctg <- TransformIntoOrdinalCategorical(data = df$popularity_
 # creating explanatory variables
 df$overall_sentiment <- TransformIntoOrdinalCategorical(data= df$compound_score, breaks = c(-1, -0.05, 0.05, 1), labels =  c("NEG", "NEU", "POS"))
 df$date <- as.POSIXct(df$date,tz=Sys.timezone(), format ="%Y-%m-%d") # remove H-M-Sec from date for simplicity
-
+df$hashtags_count <- TransformIntoOrdinalCategorical(data = df$hashtags_count, breaks = c(-1, 1, 4, 11), labels = c(1, 2, 3))
 
 # save new csv 
 write.csv(df, "01b-updated_dataframe-apr06.csv")
