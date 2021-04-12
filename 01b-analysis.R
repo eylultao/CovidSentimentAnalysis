@@ -31,7 +31,7 @@ TransformIntoOrdinalCategorical <-function(data, breaks, labels){
 
 # Data Wrangling
 colnames(df)
-df <- df[c("user_verified", "date", "text", "hashtags", "hashtags_count", "retweets", "favorites","compound_score", 
+df <- df[c("user_name","user_verified", "date", "text", "hashtags", "hashtags_count", "retweets", "favorites","compound_score", 
            "positive_score", "negative_score", "neutral_score")]
 
 # creating response variable
