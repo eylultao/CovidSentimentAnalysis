@@ -49,20 +49,24 @@ MoveDuplicateUsers <- function(subsets){
   duplicate_user_indices <- which(subsets$subset2$user_name %in% subsets$subset1$user_name)
   entries_to_move <- subsets$subset2[duplicate_user_indices,]
   subset2 <- subsets$subset2[-duplicate_user_indices,]
+  print(subset2)
+  print(dim(duplicate_user_indices))
   subset1 <- rbind(subsets$subset1, entries_to_move)
   return (list(subset1 = subset1, subset2 = subset2))
 }
 
-set.seed(420)
-df <- PerformUndersample(df, df$popularity_score_ctg, "LOW", n=2500) # remove 2500 of entries with low popularity score for improving sample distribution
-table(df$popularity_score_ctg) # check new distribution
-subsets <- CreateSubsets(df, subset1_size = 2500) 
-subsets <- MoveDuplicateUsers(subsets)
 
-which(subsets$subset1$user_name %in% subsets$subset2$user_name) # should output 0 if there are no duplicate users 
+set.seed(420)
+df <- PerformUndersample(df, df$popularity_score_ctg, "LOW", n=4000) # remove 2500 of entries with low popularity score for improving sample distribution
+df <- PerformUndersample(df, df$popularity_score_ctg, "AVG", n=1000) # remove 1000 of entries with avg popularity score for improving sample distribution
+table(df$popularity_score_ctg) # check new distribution
+subsets <- CreateSubsets(df, subset1_size = 1500) 
+subsets_final <- MoveDuplicateUsers(subsets)
+
+which(subsets_final$subset1$user_name %in% subsets_final$subset2$user_name) # should output 0 if there are no duplicate users 
 
 # save new csv 
 write.csv(df, "02-updated_dataframe-apr06.csv")
-write.csv(subsets$subset2, "testing_set.csv")
-write.csv(subsets$subset1, "training_set.csv")
+write.csv(subsets_final$subset2, "testing_set.csv")
+write.csv(subsets_final$subset1, "training_set.csv")
 
