@@ -13,11 +13,11 @@ testing_set <- read.csv("testing_set.csv")
 
 
 # fix the order of factoring for popularity score 
+# I am repeatedly doing this each time i read csv as it doesn't conserve factor as type, nor the ordering
 training_set$popularity_score_ctg <- as.factor(training_set$popularity_score_ctg)
 testing_set$popularity_score_ctg <- as.factor(testing_set$popularity_score_ctg)
 training_set$popularity_score_ctg <- fct_infreq(training_set$popularity_score_ctg)
 testing_set$popularity_score_ctg <- fct_infreq(testing_set$popularity_score_ctg)
-
 
 #' Using the function provided in class, did not change the name as a result
 category_pred_interval = function(ProbMatrix,labels)
@@ -61,15 +61,22 @@ return(out)
 }
 
 ###############
-logit = vglm(popularity_score_ctg~ compound_score + hashtags_count + user_verified, multinomial(refLevel = 1), data = training_set)
+# Finalized model for multinomial logit, tweet_age ended up being unuseful.
+multilogit = vglm(popularity_score_ctg~ compound_score + hashtags_count + user_verified, multinomial(refLevel = 1), data = training_set)
 print("Model Summary: ")
-print(summary(logit))
+print(summary(multilogit))
 
-logit_out_pred = predict(logit, type="response", newdata= testing_set)
-logit_pred_interval = category_pred_interval(logit_out_pred,labels=c("LOW", "AVG", "HIGH"))
+multilogit_out_pred = predict(multilogit, type="response", newdata= testing_set)
+multilogit_pred_interval = category_pred_interval(multilogit_out_pred,labels=c("LOW", "AVG", "HIGH"))
 
-logit_cov <- coverage(table(testing_set$popularity_score_ctg,logit_pred_interval$pred50))
+multilogit_table50 <- table(testing_set$popularity_score_ctg,multilogit_pred_interval$pred50)
+
+multilogit_cov <- coverage(multilogit_table50)
 print("Coverage and Accuracy Results : ")
-print(logit_cov)
-print("Predictions at 50% Interval: ")
-print(table(testing_set$popularity_score_ctg,logit_pred_interval$pred50))
+print(multilogit_cov)
+print("Confusion Matrix at 50% Interval: ")
+print(multilogit_table50)
+
+save(multilogit, file = "multilogit-model.RData")
+save(multilogit_table50, file = "multilogit-confusion-matrix.RData")
+

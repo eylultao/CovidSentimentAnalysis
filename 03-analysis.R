@@ -4,6 +4,7 @@ setwd("/Users/eylulaygun/Desktop/Year\ 5/stat\ 447B/CovidSentimentAnalysis")
 library(ggplot2)
 library(ggpubr)
 library(forcats)
+
 df <- read.csv("02-updated_dataframe-apr06.csv")
 training_set <- read.csv("training_set.csv")
 
