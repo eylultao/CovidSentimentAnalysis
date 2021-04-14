@@ -59,7 +59,6 @@ MoveDuplicateUsers <- function(subsets){
 set.seed(420)
 df <- PerformUndersample(df, df$popularity_score_ctg, "LOW", n=4000) # remove 2500 of entries with low popularity score for improving sample distribution
 df <- PerformUndersample(df, df$popularity_score_ctg, "AVG", n=1000) # remove 1000 of entries with avg popularity score for improving sample distribution
-table(df$popularity_score_ctg) # check new distribution
 subsets <- CreateSubsets(df, subset1_size = 1500) 
 subsets_final <- MoveDuplicateUsers(subsets)
 

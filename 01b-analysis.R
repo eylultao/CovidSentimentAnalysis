@@ -41,9 +41,9 @@ df$popularity_score_ctg <- TransformIntoOrdinalCategorical(data = df$popularity_
 
 # creating explanatory variables
 df$overall_sentiment <- TransformIntoOrdinalCategorical(data= df$compound_score, breaks = c(-1, -0.05, 0.05, 1), labels =  c("NEG", "NEU", "POS"))
-df$date <- as.POSIXct(df$date,tz=Sys.timezone(), format ="%Y-%m-%d") # remove H-M-Sec from date for simplicity
+df$date <- as.Date(df$date,tz=Sys.timezone(), format ="%Y-%m-%d") # remove H-M-Sec from date for simplicity
 df$hashtags_count <- TransformIntoOrdinalCategorical(data = df$hashtags_count, breaks = c(-1, 1, 4, 11), labels = c(1, 2, 3))
-
+df$tweet_age <- as.numeric(df$date - as.Date(as.character("2020-12-12", format = "%Y-%m-%d")))
 # save new csv 
 write.csv(df, "01b-updated_dataframe-apr06.csv")
 
