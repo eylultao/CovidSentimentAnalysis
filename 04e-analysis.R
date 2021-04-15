@@ -61,23 +61,20 @@ out=list(avgLen=avgLen,miss=miss,missRate=miss/rowFreq,coverRate=cover/rowFreq)
 return(out)
 }
 
-#### TREE
-library(rpart) 
-library(rpart.plot) 
+### RF
+rf = randomForest(popularity_score_ctg ~ compound_score + user_verified + hashtags_count ,data=training_set, importance=TRUE, proximity=TRUE)
+rf_out_pred=predict(rf,type="prob",newdata=testing_set)
+rf_max_prob=apply(rf_out_pred,1,max)
+rf_pred_interval=category_pred_interval(rf_out_pred,labels=c("LOW", "AVG", "HIGH"))
 
-ctree <- rpart(popularity_score_ctg ~ compound_score + user_verified + hashtags_count+ tweet_age , data=training_set)   
-par(mfrow=c(1,1))
-rpart.plot(ctree) 
-tree_out_pred =predict(ctree,newdata=testing_set)
-tree_max_prob = apply(tree_out_pred,1,max)
-tree_pred_interval=category_pred_interval(tree_out_pred,labels=c("LOW", "AVG", "HIGH"))
-table(training_set$popularity_score_ctg)
+print("Importance: ")
+print(rf$importance)
 
-tree_table50 <- table(testing_set$popularity_score_ctg,tree_pred_interval$pred50)
-tree_cov <- coverage(tree_table50)
-tree_final_coverage <- sum(tree_cov$coverRate * c(403/847, 338/847, 106/847))
-
-print(tree_final_coverage)
 print("Predictions for 50% : ")
-print(table(testing_set$popularity_score_ctg,tree_pred_interval$pred50))
-
+print(table(testing_set$popularity_score_ctg,rf_pred_interval$pred50))
+print("Predictions for 80% : ")
+print(table(holdout_set$lettr,rf_pred_interval$pred80))
+print("Misclass rate for 50% : " )
+print(get_misclass_rate_flex(testing_set$popularity_score_ctg, rf_pred_interval$pred50))
+print("Misclass rate for 80% : " )
+print(get_misclass_rate_strict(holdout_set$lettr, rf_pred_interval$pred80))
