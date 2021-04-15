@@ -81,3 +81,7 @@ print(tree_final_coverage)
 print("Predictions for 50% : ")
 print(table(testing_set$popularity_score_ctg,tree_pred_interval$pred50))
 
+save(ctree, file = "tree-model.RData")
+save(tree_table50, file = "tree-confusion-matrix.RData")
+
+
