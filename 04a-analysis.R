@@ -11,7 +11,6 @@ df <- read.csv("02-updated_dataframe-apr06.csv")
 training_set <- read.csv("training_set.csv")
 testing_set <- read.csv("testing_set.csv")
 
-
 # fix the order of factoring for popularity score 
 # I am repeatedly doing this each time i read csv as it doesn't conserve factor as type, nor the ordering
 training_set$popularity_score_ctg <- as.factor(training_set$popularity_score_ctg)
@@ -61,6 +60,7 @@ return(out)
 }
 
 ###############
+
 # Finalized model for multinomial logit, tweet_age ended up being unuseful.
 multilogit = vglm(popularity_score_ctg~ compound_score + hashtags_count + user_verified, multinomial(refLevel = 1), data = training_set)
 print("Model Summary: ")
@@ -76,6 +76,10 @@ print("Coverage and Accuracy Results : ")
 print(multilogit_cov)
 print("Confusion Matrix at 50% Interval: ")
 print(multilogit_table50)
+print("Final Coverage Rate")
+multilogit_final_coverage <- sum(multilogit_cov$coverRate * c(403/847, 338/847, 106/847))
+print(multilogit_final_coverage)
+
 
 save(multilogit, file = "multilogit-model.RData")
 save(multilogit_table50, file = "multilogit-confusion-matrix.RData")
