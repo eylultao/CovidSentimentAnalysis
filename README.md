@@ -1,11 +1,9 @@
 # CovidSentimentAnalysis
-sentiment analysis for covid vaccination tweets, more specifically for Pfizer vaccine
-
+Sentiment analysis for covid vaccination tweets, more specifically for Pfizer vaccine
+This project tries to answer the question whether it is possible to predict the popularity of a tweet using sentiment analysis.
 
 # Data Source
 https://www.kaggle.com/gpreda/pfizer-vaccine-tweets
-
-# Steps Taken
 
 ### 01a-analysis.py
 Preprocess tweet text
@@ -28,7 +26,9 @@ Basic visualizations for our variables, exploring spearman rank correlation betw
 
 ### 04-analysis.R
 Initial models for classification, comparisons between predictive powers
+#### 04a Multinomial Logistic Regression
+#### 04b Naive Bayes Classification
+#### 04c KNN
+#### 04d Decision Trees
+#### 04e Random Forest
 
-# TODOS
-### 05-analysis.R
-Conclusion, final model, prediction results, diagnostics 
