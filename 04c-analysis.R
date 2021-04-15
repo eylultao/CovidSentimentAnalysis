@@ -41,6 +41,8 @@ k_val_uppr <- ceiling(k_val)
 
 knn_lwr <- knn(train = training_subset_n, test= testing_subset_n, cl=training_subset_labels, k = k_val_lwr, prob = TRUE)
 knn_uppr <- knn(train = training_subset_n, test= testing_subset_n, cl=training_subset_labels, k = k_val_uppr, prob = TRUE)
+#NOTE: something is not working with documentation, I was supposed to get probability matrices as well by picking prob=TRUE,
+#      however regardless of the value I assign to prob parameter, I only get the vector of final predictions
 
 # get coverage rates
 coverage.lwr <- 100 * sum(testing_subset_labels == knn_lwr)/NROW(testing_subset_labels) # 48.406
@@ -52,4 +54,4 @@ table(testing_subset_labels, knn_lwr)
 table(testing_subset_labels, knn_uppr)
 # We can see that no predictions were made for HIGH popularity.
 
-
+save(knn_lwr, file = "knn42-model.RData")
